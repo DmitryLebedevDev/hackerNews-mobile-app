@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                             TextView story = storyView.findViewById(R.id.story_item);
                             story.setText(storyData.title);
 
-                            vList.addView(storyView, 0);
+                            vList.addView(storyView, vList.getChildCount()-1);
                         }
 
                         vListLoading.setVisibility(View.GONE);
