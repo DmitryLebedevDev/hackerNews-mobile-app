@@ -38,6 +38,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
     final OkHttpClient httpClient = new OkHttpClient();
     final Gson gson = new Gson();
+    final StoriesApi storiesApi = new StoriesApi(httpClient, gson);
     ViewGroup vList;
     ProgressBar vListLoading;
 
@@ -50,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
         vList = findViewById(R.id.story_list);
         vListLoading = findViewById(R.id.story_list_loading);
 
-        Observable<Integer[]> ids = Observable.fromCallable(() -> {
+        loadStories();
+
+        /*Observable<Integer[]> ids = Observable.fromCallable(() -> {
             Request storiesIdsReq = new Request.Builder()
                     .url("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty")
                     .build();
@@ -100,6 +103,38 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete() {
                 Log.v("data", "ids");
+            }
+        });*/
+    }
+
+    public void loadStories() {
+        vListLoading.setVisibility(View.VISIBLE);
+
+        storiesApi.nextSotries().subscribeWith(new DefaultObserver<List<Story>>() {
+            @Override
+            public void onNext(@NonNull List<Story> stories) {
+                Log.v("new", "list");
+                LayoutInflater inf = getLayoutInflater();
+
+                for(Story storyData : stories) {
+                    View storyView = inf.inflate(R.layout.story_item_list, vList, false);
+                    TextView story = storyView.findViewById(R.id.story_item);
+                    story.setText(storyData.title);
+
+                    vList.addView(storyView, vList.getChildCount()-1);
+                }
+
+                vListLoading.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
     }
