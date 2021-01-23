@@ -20,6 +20,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <Button
+                android:id="@+id/load_stories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/load_stories"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+            />
+
             <ProgressBar
                 android:id="@+id/story_list_loading"
                 style="?android:attr/progressBarStyle"

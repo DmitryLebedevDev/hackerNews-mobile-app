@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.service.controls.templates.ControlButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     final StoriesApi storiesApi = new StoriesApi(httpClient, gson);
     ViewGroup vList;
     ProgressBar vListLoading;
+    Button vListLoadButton;
 
     @Override
     @SuppressLint("ResourceType")
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         vList = findViewById(R.id.story_list);
         vListLoading = findViewById(R.id.story_list_loading);
+        vListLoadButton = findViewById(R.id.load_stories);
 
         loadStories();
 
@@ -108,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadStories() {
+        vListLoadButton.setVisibility(View.GONE);
         vListLoading.setVisibility(View.VISIBLE);
 
         storiesApi.nextSotries().subscribeWith(new DefaultObserver<List<Story>>() {
@@ -121,10 +126,11 @@ public class MainActivity extends AppCompatActivity {
                     TextView story = storyView.findViewById(R.id.story_item);
                     story.setText(storyData.title);
 
-                    vList.addView(storyView, vList.getChildCount()-1);
+                    vList.addView(storyView, vList.getChildCount()-2);
                 }
 
                 vListLoading.setVisibility(View.GONE);
+                vListLoadButton.setVisibility(View.VISIBLE);
             }
 
             @Override
