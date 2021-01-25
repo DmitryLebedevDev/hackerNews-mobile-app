@@ -18,16 +18,18 @@
             android:id="@+id/story_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/load_stories"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/load_stories"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-            />
+                android:onClick="loadStories"
+                android:text="@string/load_stories" />
 
             <ProgressBar
                 android:id="@+id/story_list_loading"
@@ -35,7 +37,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
-                android:paddingBottom="8dp" />
+                android:paddingBottom="8dp"
+                android:visibility="gone" />
 
         </LinearLayout>
     </ScrollView>

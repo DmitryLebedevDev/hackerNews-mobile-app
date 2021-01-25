@@ -56,69 +56,19 @@ public class MainActivity extends AppCompatActivity {
         vListLoadButton = findViewById(R.id.load_stories);
 
         loadStories();
-
-        /*Observable<Integer[]> ids = Observable.fromCallable(() -> {
-            Request storiesIdsReq = new Request.Builder()
-                    .url("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty")
-                    .build();
-            return httpClient.newCall(storiesIdsReq).execute();
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map((e) -> gson.fromJson(e.body().string(), Integer[].class));
-
-        ids.subscribeWith(new DisposableObserver<Integer[]>() {
-            @Override
-            public void onNext(@NonNull Integer[] s) {
-                Log.v("data", Arrays.toString(s));
-                getStories(s).observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableObserver<List<Story>>() {
-                    @Override
-                    public void onNext(@NonNull List<Story> stories) {
-                        Log.v("new", "list");
-                        LayoutInflater inf = getLayoutInflater();
-
-                        for(Story storyData : stories) {
-                            View storyView = inf.inflate(R.layout.story_item_list, vList, false);
-                            TextView story = storyView.findViewById(R.id.story_item);
-                            story.setText(storyData.title);
-
-                            vList.addView(storyView, vList.getChildCount()-1);
-                        }
-
-                        vListLoading.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Log.v("ERRRRRRRRRRRRRRRRRRRRR", e.toString());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onError(@NonNull Throwable e) {
-                Log.v("data", e.toString());
-            }
-
-            @Override
-            public void onComplete() {
-                Log.v("data", "ids");
-            }
-        });*/
     }
 
+    public void loadStories(View view) {
+        Log.v("tag", "start loading");
+        loadStories();
+    }
     public void loadStories() {
         vListLoadButton.setVisibility(View.GONE);
         vListLoading.setVisibility(View.VISIBLE);
 
-        storiesApi.nextSotries().subscribeWith(new DefaultObserver<List<Story>>() {
+        storiesApi.nextStories().subscribeWith(new DefaultObserver<List<Story>>() {
             @Override
             public void onNext(@NonNull List<Story> stories) {
-                Log.v("new", "list");
                 LayoutInflater inf = getLayoutInflater();
 
                 for(Story storyData : stories) {
@@ -130,7 +80,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 vListLoading.setVisibility(View.GONE);
-                vListLoadButton.setVisibility(View.VISIBLE);
+
+                if (storiesApi.hasNext())
+                    vListLoadButton.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -142,66 +94,6 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete() {
 
             }
-        });
-    }
-
-    public Observable<List<Story>> getStories(Integer[] ids) {
-        Log.v("start", Arrays.toString(ids));
-        Log.v("start", "" + ids.length);
-        return new ObservableCreate<>((event) -> {
-            List<Story> stories = new ArrayList<>();
-            List<Observable<String>> storiesObservables = new ArrayList<>();
-
-            for(int t=0; t<50; t++) {
-                Request storyReq = new Request.Builder()
-                        .url("https://hacker-news.firebaseio.com/v0/item/" + ids[t] + ".json?print=pretty")
-                        .build();
-
-                storiesObservables.add(Observable.create(e -> {
-                   Call call = new OkHttpClient().newCall(storyReq);
-
-                   e.setCancellable(call::cancel);
-
-                   httpClient.newCall(storyReq).enqueue(new Callback() {
-                       @Override
-                       public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                           Log.v("Error", e.toString());
-                       }
-
-                       @Override
-                       public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                           //Gson gson = new Gson();
-                           //Integer[] ids = gson.fromJson(response.body().string(), Integer[].class);
-                           e.onNext(response.body().string());
-                           e.onComplete();
-                       }
-                   });
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).map(e -> (String) e));
-            }
-
-            Observable.merge(storiesObservables)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DefaultObserver<String>() {
-                @Override
-                public void onNext(@NonNull String s) {
-                    Log.v("", "new");
-                    stories.add(gson.fromJson(s, Story.class));
-                }
-
-                @Override
-                public void onError(@NonNull Throwable e) {
-                    Log.v("Error", e.toString());
-                    event.onError(e);
-                }
-
-                @Override
-                public void onComplete() {
-                    Log.v("End", stories.get(0).title);
-                    event.onNext(stories);
-                    event.onComplete();
-                }
-            });
         });
     }
 }
