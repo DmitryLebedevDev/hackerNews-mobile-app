@@ -3,6 +3,7 @@ package com.example.hackernews;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.service.controls.templates.ControlButton;
 import android.util.Log;
@@ -58,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
         loadStories();
     }
 
+    public void toStories(View view) {
+        Intent intent = new Intent(this, StoriesActivity.class);
+
+        startActivity(intent);
+    }
+
     public void loadStories(View view) {
         Log.v("tag", "start loading");
         loadStories();
@@ -66,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         vListLoadButton.setVisibility(View.GONE);
         vListLoading.setVisibility(View.VISIBLE);
 
-        storiesApi.nextStories().subscribeWith(new DefaultObserver<List<Story>>() {
+        storiesApi.nextStories().observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DefaultObserver<List<Story>>() {
             @Override
             public void onNext(@NonNull List<Story> stories) {
                 LayoutInflater inf = getLayoutInflater();

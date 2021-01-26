@@ -92,7 +92,6 @@ public class StoriesApi {
             disposable.add(
                     getIds()
                             .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribeWith(new DisposableObserver<List<Integer>>() {
                                 @Override
                                 public void onNext(@NonNull List<Integer> idsList) {
@@ -166,13 +165,12 @@ public class StoriesApi {
                             e.onComplete();
                         }
                     });
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).map(e -> (String) e));
+                }).subscribeOn(Schedulers.io()).map(e -> (String) e));
             }
 
             Disposable disposable
                     = Observable.merge(storiesObservables)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new DisposableObserver<String>() {
                         @Override
                         public void onNext(@NonNull String s) {
