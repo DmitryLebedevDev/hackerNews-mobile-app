@@ -13,14 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HackerNews">
         <activity android:name=".ActionsActivity">
+
+        </activity>
+        <activity android:name=".StoriesActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".StoriesActivity" />
-        <activity android:name=".MainActivity">
         </activity>
     </application>
 

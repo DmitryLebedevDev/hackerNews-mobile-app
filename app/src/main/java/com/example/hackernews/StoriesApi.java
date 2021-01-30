@@ -91,43 +91,43 @@ public class StoriesApi {
 
             disposable.add(
                     getIds()
-                            .subscribeOn(Schedulers.io())
-                            .subscribeWith(new DisposableObserver<List<Integer>>() {
-                                @Override
-                                public void onNext(@NonNull List<Integer> idsList) {
-                                    disposable.add(
-                                            getStories(idsList).subscribeWith(new DisposableObserver<List<Story>>() {
-                                                @Override
-                                                public void onNext(@NonNull List<Story> stories) {
-                                                    ++currentStep;
+                        .subscribeOn(Schedulers.io())
+                        .subscribeWith(new DisposableObserver<List<Integer>>() {
+                            @Override
+                            public void onNext(@NonNull List<Integer> idsList) {
+                                disposable.add(
+                                        getStories(idsList).subscribeWith(new DisposableObserver<List<Story>>() {
+                                            @Override
+                                            public void onNext(@NonNull List<Story> stories) {
+                                                ++currentStep;
 
-                                                    e.onNext(stories);
-                                                    e.onComplete();
-                                                }
+                                                e.onNext(stories);
+                                                e.onComplete();
+                                            }
 
-                                                @Override
-                                                public void onError(@NonNull Throwable err) {
-                                                    e.onError(err);
-                                                }
+                                            @Override
+                                            public void onError(@NonNull Throwable err) {
+                                                e.onError(err);
+                                            }
 
-                                                @Override
-                                                public void onComplete() {
+                                            @Override
+                                            public void onComplete() {
 
-                                                }
-                                            })
-                                    );
-                                }
+                                            }
+                                        })
+                                );
+                            }
 
-                                @Override
-                                public void onError(@NonNull Throwable err) {
-                                    e.onError(err);
-                                }
+                            @Override
+                            public void onError(@NonNull Throwable err) {
+                                e.onError(err);
+                            }
 
-                                @Override
-                                public void onComplete() {
+                            @Override
+                            public void onComplete() {
 
-                                }
-                            })
+                            }
+                        })
             );
 
             e.setCancellable(disposable::dispose);
@@ -169,26 +169,25 @@ public class StoriesApi {
             }
 
             Disposable disposable
-                    = Observable.merge(storiesObservables)
-                    .subscribeOn(Schedulers.io())
-                    .subscribeWith(new DisposableObserver<String>() {
-                        @Override
-                        public void onNext(@NonNull String s) {
-                            stories.add(gson.fromJson(s, Story.class));
-                        }
+                = Observable.merge(storiesObservables)
+                .subscribeWith(new DisposableObserver<String>() {
+                    @Override
+                    public void onNext(@NonNull String s) {
+                        stories.add(gson.fromJson(s, Story.class));
+                    }
 
-                        @Override
-                        public void onError(@NonNull Throwable e) {
-                            Log.v("Error", e.toString());
-                            event.onError(e);
-                        }
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.v("Error", e.toString());
+                        event.onError(e);
+                    }
 
-                        @Override
-                        public void onComplete() {
-                            event.onNext(stories);
-                            event.onComplete();
-                        }
-                    });
+                    @Override
+                    public void onComplete() {
+                        event.onNext(stories);
+                        event.onComplete();
+                    }
+                });
 
             event.setCancellable(disposable::dispose);
         });
