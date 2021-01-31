@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     final OkHttpClient httpClient = new OkHttpClient();
     final Gson gson = new Gson();
     final StoriesApi storiesApi = new StoriesApi(httpClient, gson);
+    
     ViewGroup vList;
     ProgressBar vListLoading;
     Button vListLoadButton;
@@ -93,14 +94,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onError(@NonNull Throwable e) {
-
-            }
-
+            public void onError(@NonNull Throwable e) {}
             @Override
-            public void onComplete() {
-
-            }
+            public void onComplete() {}
         });
     }
 }

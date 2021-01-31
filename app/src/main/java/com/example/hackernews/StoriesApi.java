@@ -28,8 +28,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class StoriesApi {
-    private OkHttpClient httpClient;
-    private Gson gson;
+    private final OkHttpClient httpClient;
+    private final Gson gson;
 
     private List<Integer> ids = new ArrayList<>();
     private Integer currentStep = 1;
@@ -90,44 +90,41 @@ public class StoriesApi {
             CompositeDisposable disposable = new CompositeDisposable();
 
             disposable.add(
-                    getIds()
-                        .subscribeOn(Schedulers.io())
-                        .subscribeWith(new DisposableObserver<List<Integer>>() {
-                            @Override
-                            public void onNext(@NonNull List<Integer> idsList) {
-                                disposable.add(
-                                        getStories(idsList).subscribeWith(new DisposableObserver<List<Story>>() {
-                                            @Override
-                                            public void onNext(@NonNull List<Story> stories) {
-                                                ++currentStep;
+                getIds()
+                    .subscribeOn(Schedulers.io())
+                    .subscribeWith(new DisposableObserver<List<Integer>>() {
+                        @Override
+                        public void onNext(@NonNull List<Integer> idsList) {
+                            disposable.add(
+                                getStories(idsList).subscribeWith(new DisposableObserver<List<Story>>() {
+                                    @Override
+                                    public void onNext(@NonNull List<Story> stories) {
+                                        ++currentStep;
 
-                                                e.onNext(stories);
-                                                e.onComplete();
-                                            }
+                                        e.onNext(stories);
+                                        e.onComplete();
+                                    }
 
-                                            @Override
-                                            public void onError(@NonNull Throwable err) {
-                                                e.onError(err);
-                                            }
+                                    @Override
+                                    public void onError(@NonNull Throwable err) {
+                                        e.onError(err);
+                                    }
 
-                                            @Override
-                                            public void onComplete() {
+                                    @Override
+                                    public void onComplete() {
 
-                                            }
-                                        })
-                                );
-                            }
+                                    }
+                                })
+                            );
+                        }
 
-                            @Override
-                            public void onError(@NonNull Throwable err) {
-                                e.onError(err);
-                            }
-
-                            @Override
-                            public void onComplete() {
-
-                            }
-                        })
+                        @Override
+                        public void onError(@NonNull Throwable err) {
+                            e.onError(err);
+                        }
+                        @Override
+                        public void onComplete() {}
+                    })
             );
 
             e.setCancellable(disposable::dispose);
@@ -188,7 +185,6 @@ public class StoriesApi {
                         event.onComplete();
                     }
                 });
-
             event.setCancellable(disposable::dispose);
         });
     }

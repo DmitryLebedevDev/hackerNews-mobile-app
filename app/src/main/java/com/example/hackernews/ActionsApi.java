@@ -52,14 +52,9 @@ public class ActionsApi {
                 }
 
                 @Override
-                public void onError(@NonNull Throwable e) {
-
-                }
-
+                public void onError(@NonNull Throwable e) {}
                 @Override
-                public void onComplete() {
-
-                }
+                public void onComplete() {}
             });
     }
 

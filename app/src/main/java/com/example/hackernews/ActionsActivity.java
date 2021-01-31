@@ -38,14 +38,9 @@ public class ActionsActivity extends AppCompatActivity {
         disposables.add(
             actionsInfo.updateQuantity().subscribeWith(new DisposableObserver<Integer>() {
                 @Override
-                public void onNext(@NonNull Integer integer) {
-
-                }
-
+                public void onNext(@NonNull Integer integer) {}
                 @Override
-                public void onError(@NonNull Throwable e) {
-
-                }
+                public void onError(@NonNull Throwable e) {}
 
                 @Override
                 public void onComplete() {
@@ -53,27 +48,23 @@ public class ActionsActivity extends AppCompatActivity {
                     vLoadingActions.setVisibility(View.GONE);
                     vQuantityActions.append(actionsInfo.quantity.toString());
 
-                    actionsInfo.liveQuantity()
-                    .observeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableObserver<Integer>() {
-                        @SuppressLint("SetTextI18n")
-                        @Override
-                        public void onNext(@NonNull Integer integer) {
-                            Log.v("tag", actionsInfo.quantity.toString());
-                            vQuantityActions.setText("Actions " + actionsInfo.quantity.toString());
-                        }
-
-                        @Override
-                        public void onError(@NonNull Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
+                    disposables.add(
+                        actionsInfo.liveQuantity()
+                        .observeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<Integer>() {
+                            @SuppressLint("SetTextI18n")
+                            @Override
+                            public void onNext(@NonNull Integer integer) {
+                                Log.v("tag", actionsInfo.quantity.toString());
+                                vQuantityActions.setText("Actions " + actionsInfo.quantity.toString());
+                            }
+                            @Override
+                            public void onError(@NonNull Throwable e) {}
+                            @Override
+                            public void onComplete() {}
+                        })
+                    );
                 }
             })
         );
