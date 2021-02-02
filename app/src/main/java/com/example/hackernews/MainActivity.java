@@ -1,11 +1,24 @@
 package com.example.hackernews;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.service.controls.templates.ControlButton;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.LeadingMarginSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +27,10 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.hackernews.R;
+import com.example.hackernews.StoriesActivity;
+import com.example.hackernews.StoriesApi;
+import com.example.hackernews.Story;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -74,15 +91,37 @@ public class MainActivity extends AppCompatActivity {
         vListLoadButton.setVisibility(View.GONE);
         vListLoading.setVisibility(View.VISIBLE);
 
-        storiesApi.nextStories().observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DefaultObserver<List<Story>>() {
+        storiesApi.nextStories()
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .subscribeWith(new DefaultObserver<List<Story>> () {
             @Override
             public void onNext(@NonNull List<Story> stories) {
                 LayoutInflater inf = getLayoutInflater();
 
                 for(Story storyData : stories) {
-                    View storyView = inf.inflate(R.layout.story_item_list, vList, false);
-                    TextView story = storyView.findViewById(R.id.story_item);
-                    story.setText(storyData.title);
+                    View storyView = inf.inflate(R.layout.new_story_item, vList, false);
+                    TextView story = storyView.findViewById(R.id.story_title);
+
+                    SpannableString storyTitle = new SpannableString(storyData.title);
+                    Typeface font = ResourcesCompat.getFont(getApplicationContext(), R.font.mi_regular);
+
+                    LeadingMarginSpan title = new LeadingMarginSpan.Standard(50, 0);
+
+                    storyTitle.setSpan(
+                            title, 0, storyTitle.length(),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    /*storyTitle.setSpan(
+                           new CustomTypefaceSpan("material", font),//ResourcesCompat.getFont(getApplicationContext(), R.font.mi_regular),
+                        0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    );
+                    storyTitle.setSpan(
+                            new RelativeSizeSpan(1.1111f),
+                           0, 4,
+                           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    ); // set size*/
+
+                    story.setText(storyTitle);
 
                     vList.addView(storyView, vList.getChildCount()-2);
                 }
@@ -98,5 +137,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete() {}
         });
+    }
+}
+
+class CustomTypefaceSpan extends TypefaceSpan {
+    private final Typeface newType;
+
+    public CustomTypefaceSpan(String family, Typeface type) {
+        super(family);
+        newType = type;
+    }
+
+    @Override
+    public void updateDrawState(TextPaint ds) {
+        applyCustomTypeFace(ds, newType);
+    }
+
+    @Override
+    public void updateMeasureState(TextPaint paint) {
+        applyCustomTypeFace(paint, newType);
+    }
+
+    private static void applyCustomTypeFace(Paint paint, Typeface tf) {
+        paint.setTypeface(tf);
     }
 }

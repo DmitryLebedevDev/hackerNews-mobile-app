@@ -1,35 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="43dp"
-        android:gravity="start"
-        tools:ignore="MissingConstraints">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_save_24"
-    </LinearLayout>
-
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp"
+>
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_weight="1"
         android:fontFamily="@font/mi_regular"
-        android:text="&#xE87C; king_bed"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="54dp"
-        tools:ignore="MissingConstraints" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:text="save"
+        android:layout_marginTop="2.86dp"
+        android:layout_marginStart="16dp"
+        android:textSize="16sp"
+        android:textColor="#595959"
+    />
+    <TextView
+        android:id="@+id/story_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="     Test"
+        android:textColor="#595959"
+        android:textSize="16sp"
+    />
+</FrameLayout>
