@@ -6,25 +6,66 @@
     android:paddingBottom="8dp"
     android:paddingTop="8dp"
 >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/mi_regular"
-        android:text="save"
-        android:layout_marginTop="2.86dp"
-        android:layout_marginStart="16dp"
-        android:textSize="16sp"
-        android:textColor="#595959"
-    />
-    <TextView
-        android:id="@+id/story_title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="     Test"
-        android:textColor="#595959"
-        android:textSize="16sp"
-    />
+    >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.09dp"
+                android:fontFamily="@font/mi_regular"
+                android:layout_marginLeft="-1sp"
+                android:text="save"
+                android:textColor="#595959"
+                android:textSize="16sp"
+                />
+            <TextView
+                android:id="@+id/story_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginLeft="-16sp"
+                android:text="     Test fgd dfg gdf gdf gdf dfg dfg dfg gdf dfg df dfg df d fgdgf dgfdf dfgdfg fdgdf gdfg dfgdfgd fgdfdfg gdf dgf dfg gdf gdf dg fd fgd fgd f gdf "
+                android:textColor="#595959"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/mi_regular"
+                android:layout_marginLeft="0.8sp"
+                android:text="thumb_up"
+                android:textColor="#818181"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/story_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginLeft="3sp"
+                android:text="123"
+                android:textColor="#818181"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>
