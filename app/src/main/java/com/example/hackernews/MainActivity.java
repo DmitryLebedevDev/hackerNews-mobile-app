@@ -94,34 +94,24 @@ public class MainActivity extends AppCompatActivity {
         storiesApi.nextStories()
                   .observeOn(AndroidSchedulers.mainThread())
                   .subscribeWith(new DefaultObserver<List<Story>> () {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onNext(@NonNull List<Story> stories) {
                 LayoutInflater inf = getLayoutInflater();
 
                 for(Story storyData : stories) {
                     View storyView = inf.inflate(R.layout.new_story_item, vList, false);
-                    TextView story = storyView.findViewById(R.id.story_title);
+                    TextView vStoryTitle = storyView.findViewById(R.id.story_title);
+                    TextView vStoryLikes = storyView.findViewById(R.id.story_likes);
 
                     SpannableString storyTitle = new SpannableString(storyData.title);
-                    Typeface font = ResourcesCompat.getFont(getApplicationContext(), R.font.mi_regular);
-
-                    LeadingMarginSpan title = new LeadingMarginSpan.Standard(50, 0);
-
+                    LeadingMarginSpan startStrMargin = new LeadingMarginSpan.Standard(50, 0);
                     storyTitle.setSpan(
-                            title, 0, storyTitle.length(),
+                            startStrMargin, 0, storyTitle.length(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                    /*storyTitle.setSpan(
-                           new CustomTypefaceSpan("material", font),//ResourcesCompat.getFont(getApplicationContext(), R.font.mi_regular),
-                        0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    );
-                    storyTitle.setSpan(
-                            new RelativeSizeSpan(1.1111f),
-                           0, 4,
-                           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    ); // set size*/
-
-                    story.setText(storyTitle);
+                    vStoryTitle.setText(storyTitle);
+                    vStoryLikes.setText(storyData.score.toString());
 
                     vList.addView(storyView, vList.getChildCount()-2);
                 }
