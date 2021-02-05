@@ -101,8 +101,9 @@ public class MainActivity extends AppCompatActivity {
 
                 for(Story storyData : stories) {
                     View storyView = inf.inflate(R.layout.new_story_item, vList, false);
-                    TextView vStoryTitle = storyView.findViewById(R.id.story_title);
-                    TextView vStoryLikes = storyView.findViewById(R.id.story_likes);
+                    TextView vStoryTitle    = storyView.findViewById(R.id.story_title);
+                    TextView vStoryLikes    = storyView.findViewById(R.id.story_likes);
+                    TextView vStroyComments = storyView.findViewById(R.id.story_comments);
 
                     SpannableString storyTitle = new SpannableString(storyData.title);
                     LeadingMarginSpan startStrMargin = new LeadingMarginSpan.Standard(50, 0);
@@ -112,6 +113,12 @@ public class MainActivity extends AppCompatActivity {
 
                     vStoryTitle.setText(storyTitle);
                     vStoryLikes.setText(storyData.score.toString());
+
+                    if(storyData.descendants != null) {
+                        vStroyComments.setText(storyData.descendants.toString());
+                    } else {
+                        vStroyComments.setText("0");
+                    }
 
                     vList.addView(storyView, vList.getChildCount()-2);
                 }
