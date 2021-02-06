@@ -38,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.Inflater;
 
@@ -103,7 +104,10 @@ public class MainActivity extends AppCompatActivity {
                     View storyView = inf.inflate(R.layout.new_story_item, vList, false);
                     TextView vStoryTitle    = storyView.findViewById(R.id.story_title);
                     TextView vStoryLikes    = storyView.findViewById(R.id.story_likes);
-                    TextView vStroyComments = storyView.findViewById(R.id.story_comments);
+                    TextView vStoryComments = storyView.findViewById(R.id.story_comments);
+                    TextView vStoryAgo      = storyView.findViewById(R.id.story_ago);
+                    TextView vStoryBy       = storyView.findViewById(R.id.story_by);
+                    Long currentDate        = new Date().getTime();
 
                     SpannableString storyTitle = new SpannableString(storyData.title);
                     LeadingMarginSpan startStrMargin = new LeadingMarginSpan.Standard(50, 0);
@@ -115,10 +119,13 @@ public class MainActivity extends AppCompatActivity {
                     vStoryLikes.setText(storyData.score.toString());
 
                     if(storyData.descendants != null) {
-                        vStroyComments.setText(storyData.descendants.toString());
+                        vStoryComments.setText(storyData.descendants.toString());
                     } else {
-                        vStroyComments.setText("0");
+                        vStoryComments.setText("0");
                     }
+
+                    vStoryAgo.setText(" | " + storyData.getTimeAgo(currentDate) + " | ");
+                    vStoryBy.setText("by " + storyData.by);
 
                     vList.addView(storyView, vList.getChildCount()-2);
                 }

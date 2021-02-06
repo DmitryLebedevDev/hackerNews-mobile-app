@@ -1,66 +1,79 @@
 package com.example.hackernews;
 
+import android.util.Log;
+
+import java.util.Date;
+
 class ExemplaryDateMilliseconds {
-    static final Integer second = 1000;
-    static final Integer minute = 60 * second;
-    static final Integer hour   = 60 * minute;
-    static final Integer day    = 24 * hour;
-    static final Integer mounts = 31 * day;
-    static final Integer year   = 12 * mounts;
+    static final long millisecond = 1;
+    static final long second      = 1000 * millisecond;
+    static final long minute      = 60   * second;
+    static final long hour        = 60   * minute;
+    static final long day         = 24   * hour;
+    static final long week        = 7    * day;
+    static final long mount       = 31   * day;
+    static final long year        = 12   * mount;
+}
+
+class ConvertDateToAgoString {
+    final String name;
+    final long milliseconds;
+
+    ConvertDateToAgoString(String name, long milliseconds) {
+        this.name = name;
+        this.milliseconds = milliseconds;
+    }
+
+    String isConverted(long milliseconds) {
+        long whole = milliseconds / this.milliseconds;
+        if(whole > 1) {
+            return whole + " " + name + "s ago";
+        } else if(whole == 1) {
+            return whole + " " + name + " ago";
+        } else {
+            return null;
+        }
+    }
+}
+
+class ConverterDateToAgoString {
+    static final ConvertDateToAgoString[] converters = {
+        new ConvertDateToAgoString("year",        ExemplaryDateMilliseconds.year),
+        new ConvertDateToAgoString("mount",       ExemplaryDateMilliseconds.mount),
+        new ConvertDateToAgoString("week",        ExemplaryDateMilliseconds.week),
+        new ConvertDateToAgoString("day",         ExemplaryDateMilliseconds.day),
+        new ConvertDateToAgoString("hour",        ExemplaryDateMilliseconds.hour),
+        new ConvertDateToAgoString("minute",      ExemplaryDateMilliseconds.minute),
+        new ConvertDateToAgoString("second",      ExemplaryDateMilliseconds.second),
+        new ConvertDateToAgoString("millisecond", ExemplaryDateMilliseconds.millisecond),
+    };
+
+    static String convert(Long diff) {
+        for(int t=0; t<converters.length; t++) {
+            String ago = converters[t].isConverted(diff);
+            if(ago != null)
+                return ago;
+        }
+
+        return "now";
+    }
 }
 
 public abstract class ActionType {
     public Integer id;
-    public Integer time;
+    public Long time;
     public String by;
     public Boolean deleted;
 
-    public String getTimeAgo(Integer currentDate) {
-        Integer different = currentDate - time;
+    public String getTimeAgo(long currentDate) {
+        long different = currentDate - (time * 1000);
 
-        if(different >= ExemplaryDateMilliseconds.year) {
-            Integer years = different / ExemplaryDateMilliseconds.year;
-            return years >= 1 ?
-                years + " years ago"
-                :
-                "1 year ago";
-        } else if (different >= ExemplaryDateMilliseconds.mounts) {
-            Integer months = different / ExemplaryDateMilliseconds.mounts;
-            return months >= 1 ?
-                    months + " months ago"
-                    :
-                    "1 month ago";
-        } else if (different >= ExemplaryDateMilliseconds.day) {
-            Integer days = different / ExemplaryDateMilliseconds.day;
-            return days >= 1 ?
-                    days + " days ago"
-                    :
-                    "1 day ago";
-        } else if (different >= ExemplaryDateMilliseconds.hour) {
-            Integer hours = different / ExemplaryDateMilliseconds.hour;
-            return hours >= 1 ?
-                    hours + " hours ago"
-                    :
-                    "1 hour ago";
-        } else if (different >= ExemplaryDateMilliseconds.minute) {
-            Integer minutes = different / ExemplaryDateMilliseconds.minute;
-            return minutes >= 1 ?
-                    minutes + " minutes ago"
-                    :
-                    "1 minute ago";
-        } else if (different >= ExemplaryDateMilliseconds.second) {
-            Integer seconds = different / ExemplaryDateMilliseconds.second;
-            return seconds >= 1 ?
-                    seconds + " seconds ago"
-                    :
-                    "1 second ago";
-        } else {
-            Integer Milliseconds = different / ExemplaryDateMilliseconds.second;
-            return Milliseconds >= 1 ?
-                    Milliseconds + " seconds ago"
-                    :
-                    "1 milliseconds ago";
-        }
+        return ConverterDateToAgoString.convert(different);
+    }
+    public String getTimeAgo() {
+        long currentDate = new Date().getTime();
+
+        return getTimeAgo(currentDate);
     }
 }
 
