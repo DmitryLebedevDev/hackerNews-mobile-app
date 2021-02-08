@@ -14,6 +14,7 @@ import java.util.List;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Function;
@@ -145,7 +146,7 @@ public class StoriesApi {
                         .url("https://hacker-news.firebaseio.com/v0/item/" + ids.get(t) + ".json?print=pretty")
                         .build();
 
-                storiesObservables.add(Observable.create(e -> {
+                storiesObservables.add(Observable.create((ObservableOnSubscribe<String>) e -> {
                     Call call = httpClient.newCall(storyReq);
 
                     e.setCancellable(call::cancel);
@@ -162,7 +163,7 @@ public class StoriesApi {
                             e.onComplete();
                         }
                     });
-                }).subscribeOn(Schedulers.io()).map(e -> (String) e));
+                }).subscribeOn(Schedulers.io()));
             }
 
             Disposable disposable

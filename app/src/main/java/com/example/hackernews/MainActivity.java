@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.service.controls.templates.ControlButton;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -57,9 +58,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String OPEN_STORY = "com.example.hackernews.OPEN_STORY";
+
     final OkHttpClient httpClient = new OkHttpClient();
     final Gson gson = new Gson();
     final StoriesApi storiesApi = new StoriesApi(httpClient, gson);
+
+    Disposable disposable;
     
     ViewGroup vList;
     ProgressBar vListLoading;
@@ -92,9 +97,10 @@ public class MainActivity extends AppCompatActivity {
         vListLoadButton.setVisibility(View.GONE);
         vListLoading.setVisibility(View.VISIBLE);
 
-        storiesApi.nextStories()
+        this.disposable
+                = storiesApi.nextStories()
                   .observeOn(AndroidSchedulers.mainThread())
-                  .subscribeWith(new DefaultObserver<List<Story>> () {
+                  .subscribeWith(new DisposableObserver<List<Story>> () {
             @SuppressLint("SetTextI18n")
             @Override
             public void onNext(@NonNull List<Story> stories) {
@@ -102,12 +108,13 @@ public class MainActivity extends AppCompatActivity {
 
                 for(Story storyData : stories) {
                     View storyView = inf.inflate(R.layout.new_story_item, vList, false);
-                    TextView vStoryTitle    = storyView.findViewById(R.id.story_title);
-                    TextView vStoryLikes    = storyView.findViewById(R.id.story_likes);
-                    TextView vStoryComments = storyView.findViewById(R.id.story_comments);
-                    TextView vStoryAgo      = storyView.findViewById(R.id.story_ago);
-                    TextView vStoryBy       = storyView.findViewById(R.id.story_by);
-                    Long currentDate        = new Date().getTime();
+                    TextView vStoryTitle      = storyView.findViewById(R.id.story_title);
+                    TextView vStoryLikes      = storyView.findViewById(R.id.story_likes);
+                    TextView vStoryComments   = storyView.findViewById(R.id.story_comments);
+                    TextView vStoryAgo        = storyView.findViewById(R.id.story_ago);
+                    TextView vStoryBy         = storyView.findViewById(R.id.story_by);
+                    TextView vToStoryActivity = storyView.findViewById(R.id.to_story_activity);
+                    long currentDate          = new Date().getTime();
 
                     SpannableString storyTitle = new SpannableString(storyData.title);
                     LeadingMarginSpan startStrMargin = new LeadingMarginSpan.Standard(50, 0);
@@ -127,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
                     vStoryAgo.setText(" | " + storyData.getTimeAgo(currentDate) + " | ");
                     vStoryBy.setText("by " + storyData.by + " |");
 
+                    vToStoryActivity.setOnClickListener(openStoryActivity(storyData));
+
                     vList.addView(storyView, vList.getChildCount()-2);
                 }
 
@@ -141,6 +150,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete() {}
         });
+    }
+
+    View.OnClickListener openStoryActivity(Story story) {
+        Log.v("to story", "=>");
+
+        return v -> {
+            Intent intent = new Intent(this, StoryActivity.class);
+            intent.putExtra(MainActivity.OPEN_STORY, gson.toJson(story));
+
+            startActivity(intent);
+        };
+    }
+
+    @Override
+    protected void onDestroy() {
+        disposable.dispose();
+
+        super.onDestroy();
     }
 }
 
