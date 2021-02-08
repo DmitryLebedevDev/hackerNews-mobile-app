@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     vStoryAgo.setText(" | " + storyData.getTimeAgo(currentDate) + " | ");
-                    vStoryBy.setText("by " + storyData.by);
+                    vStoryBy.setText("by " + storyData.by + " |");
 
                     vList.addView(storyView, vList.getChildCount()-2);
                 }
