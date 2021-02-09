@@ -114,6 +114,7 @@
                 android:text="send"
                 android:textColor="#818181"
                 android:textSize="14sp"
+                android:visibility="gone"
                 />
         </LinearLayout>
     </LinearLayout>

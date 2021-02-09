@@ -106,35 +106,10 @@ public class MainActivity extends AppCompatActivity {
             public void onNext(@NonNull List<Story> stories) {
                 LayoutInflater inf = getLayoutInflater();
 
-                for(Story storyData : stories) {
-                    View storyView = inf.inflate(R.layout.new_story_item, vList, false);
-                    TextView vStoryTitle      = storyView.findViewById(R.id.story_title);
-                    TextView vStoryLikes      = storyView.findViewById(R.id.story_likes);
-                    TextView vStoryComments   = storyView.findViewById(R.id.story_comments);
-                    TextView vStoryAgo        = storyView.findViewById(R.id.story_ago);
-                    TextView vStoryBy         = storyView.findViewById(R.id.story_by);
-                    TextView vToStoryActivity = storyView.findViewById(R.id.to_story_activity);
-                    long currentDate          = new Date().getTime();
-
-                    SpannableString storyTitle = new SpannableString(storyData.title);
-                    LeadingMarginSpan startStrMargin = new LeadingMarginSpan.Standard(50, 0);
-                    storyTitle.setSpan(
-                            startStrMargin, 0, storyTitle.length(),
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                    vStoryTitle.setText(storyTitle);
-                    vStoryLikes.setText(storyData.score.toString());
-
-                    if(storyData.descendants != null) {
-                        vStoryComments.setText(storyData.descendants.toString());
-                    } else {
-                        vStoryComments.setText("0");
-                    }
-
-                    vStoryAgo.setText(" | " + storyData.getTimeAgo(currentDate) + " | ");
-                    vStoryBy.setText("by " + storyData.by + " |");
-
-                    vToStoryActivity.setOnClickListener(openStoryActivity(storyData));
+                for(Story story : stories) {
+                    View storyView = StoryItem.inflateStoryItem(
+                        inf, vList, story, openStoryActivity(story)
+                    );
 
                     vList.addView(storyView, vList.getChildCount()-2);
                 }
