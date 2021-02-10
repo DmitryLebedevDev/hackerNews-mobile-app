@@ -20,7 +20,6 @@ public class StoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_story);
 
         vStory = this.findViewById(R.id.story_template_activity_story);
-        LayoutInflater inf = getLayoutInflater();
 
         Intent intent = getIntent();
         Story story = gson.fromJson(

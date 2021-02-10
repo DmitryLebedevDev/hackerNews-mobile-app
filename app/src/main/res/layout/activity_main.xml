@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
+    tools:context=".MainActivity"
+>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,16 +18,19 @@
             android:id="@+id/story_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="11dp"
+            android:orientation="vertical"
+        >
+            <include layout="@layout/new_story_item"/>
+            <include layout="@layout/new_story_item"/>
 
             <Button
                 android:id="@+id/load_stories"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_height="wrap_content"
                 android:onClick="loadStories"
                 android:text="@string/load_stories" />
 
@@ -36,8 +39,6 @@
                 style="?android:attr/progressBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
                 android:visibility="gone" />
 
         </LinearLayout>
