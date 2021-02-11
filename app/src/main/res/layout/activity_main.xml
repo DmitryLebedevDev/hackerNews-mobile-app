@@ -24,9 +24,6 @@
             android:paddingTop="11dp"
             android:orientation="vertical"
         >
-            <include layout="@layout/new_story_item"/>
-            <include layout="@layout/new_story_item"/>
-
             <Button
                 android:id="@+id/load_stories"
                 android:layout_width="match_parent"

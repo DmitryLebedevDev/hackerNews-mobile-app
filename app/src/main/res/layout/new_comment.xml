@@ -3,8 +3,101 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="dfgsdfg dfgdf dfg df sdfdfg dfsg sdfg df gdf sdfg dfg s "/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3sp"
+                android:fontFamily="@font/mi_regular"
+                android:text="mode_comment"
+                android:textSize="16sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="     Test fgd dfg gf fg f fg fg fg fgfg fg fg fg gf fg fg fgfg fg fg fg fg fg fg gdf gdf gdf dfg dfg dfg gdf dfg df dfg df d dfg dfg dgf gdf fdg df df dfg dfg..."
+                android:textColor="#595959"
+                android:textSize="16sp"
+                android:layout_marginLeft="-16sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start"
+        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2sp"
+                android:layout_marginLeft="1sp"
+                android:text="comment"
+                android:fontFamily="@font/mi_regular"
+                />
+            <TextView
+                android:id="@+id/reply_comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginLeft="3sp"
+                android:text="123"
+                android:textColor="#818181"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/comment_ago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginLeft="3sp"
+                android:text=" | 123 ago |"
+                android:textColor="#818181"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/comment_by"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginLeft="3sp"
+                android:text=" by valera"
+                android:textColor="#818181"
+                android:textSize="14sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1sp"
+                android:layout_marginLeft="-1sp"
+                android:fontFamily="@font/mi_regular"
+                android:text="keyboard_arrow_down"
+                android:textSize="18sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="show comments"
+                android:textColor="#818181"
+            />
+        </LinearLayout>
+    </LinearLayout>
+
+
 </FrameLayout>
