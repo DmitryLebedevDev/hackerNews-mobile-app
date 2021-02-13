@@ -4,6 +4,8 @@ import android.util.Log;
 
 import java.util.Date;
 
+import okhttp3.Request;
+
 class ExemplaryDateMilliseconds {
     static final long millisecond = 1;
     static final long second      = 1000 * millisecond;
@@ -60,6 +62,7 @@ class ConverterDateToAgoString {
 }
 
 public abstract class ActionType {
+    public String type;
     public Integer id;
     public Long time;
     public String by;
@@ -74,6 +77,12 @@ public abstract class ActionType {
         long currentDate = new Date().getTime();
 
         return getTimeAgo(currentDate);
+    }
+    public static Request createRequestForGet(Integer id) {
+        return new
+        Request.Builder()
+               .url("https://hacker-news.firebaseio.com/v0/item/" + id + ".json?print=pretty")
+               .build();
     }
 }
 

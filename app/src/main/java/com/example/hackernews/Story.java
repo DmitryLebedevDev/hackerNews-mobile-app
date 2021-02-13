@@ -7,5 +7,5 @@ public class Story extends ActionType {
    public Integer descendants;
    public String title;
    public String url;
-   public ArrayList<Integer> kids;
+   public Integer[] kids;
 }

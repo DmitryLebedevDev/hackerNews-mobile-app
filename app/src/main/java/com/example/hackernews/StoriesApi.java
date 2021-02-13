@@ -151,7 +151,7 @@ public class StoriesApi {
 
                     e.setCancellable(call::cancel);
 
-                    httpClient.newCall(storyReq).enqueue(new Callback() {
+                    call.enqueue(new Callback() {
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
                             Log.v("Error", e.toString());

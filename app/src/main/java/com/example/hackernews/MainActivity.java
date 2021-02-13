@@ -83,12 +83,6 @@ public class MainActivity extends AppCompatActivity {
         loadStories();
     }
 
-    public void toStories(View view) {
-        Intent intent = new Intent(this, StoriesActivity.class);
-
-        startActivity(intent);
-    }
-
     public void loadStories(View view) {
         Log.v("tag", "start loading");
         loadStories();
@@ -109,6 +103,16 @@ public class MainActivity extends AppCompatActivity {
                 for(Story story : stories) {
                     View storyView = StoryItem.inflateStoryItem(
                         inf, vList, story, openStoryActivity(story)
+                    );
+
+                    ViewGroup.MarginLayoutParams marginParams
+                         = (ViewGroup.MarginLayoutParams) storyView.getLayoutParams();
+
+                    marginParams.setMargins(
+                        0,
+                        0,
+                        0,
+                        getResources().getDimensionPixelSize(R.dimen.story_default_margin)
                     );
 
                     vList.addView(storyView, vList.getChildCount()-2);
