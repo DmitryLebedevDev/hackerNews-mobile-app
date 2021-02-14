@@ -132,8 +132,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     View.OnClickListener openStoryActivity(Story story) {
-        Log.v("to story", "=>");
-
         return v -> {
             Intent intent = new Intent(this, StoryActivity.class);
             intent.putExtra(MainActivity.OPEN_STORY, gson.toJson(story));

@@ -42,7 +42,8 @@ public class StoryActivity extends AppCompatActivity {
         );
 
         commentsApi = new CommentsApi(story.kids, gson, http);
-        commentsApi.getNextParentComments().subscribeWith(new DisposableSingleObserver<ArrayList<Comment>>() {
+        commentsApi.getNextParentComments().subscribeWith(
+        new DisposableSingleObserver<ArrayList<Comment>>() {
             @Override
             public void onSuccess(@NonNull ArrayList<Comment> comments) {
                 Log.v("test", comments.get(1).text);

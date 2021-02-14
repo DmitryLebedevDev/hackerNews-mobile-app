@@ -12,7 +12,7 @@ import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.functions.BiFunction;
+import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.functions.Supplier;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Call;
@@ -25,8 +25,8 @@ public class CommentsApi {
     OkHttpClient http;
     Integer[] parentComments;
 
-    private final Integer stepSize = 10;
-    private final Integer currentStep = 0;
+    private final Integer stepSize = 20;
+    private Integer currentStep = 0;
 
     CommentsApi(Integer[] parentComments, Gson gson, OkHttpClient http) {
         this.gson = gson;
@@ -35,7 +35,7 @@ public class CommentsApi {
     }
 
     boolean hasNextParentComments() {
-        return currentStep * stepSize < parentComments.length;
+        return (currentStep + 1) * stepSize <= parentComments.length;
     }
 
     Single<ArrayList<Comment>> getNextParentComments() {
@@ -65,11 +65,11 @@ public class CommentsApi {
                 }
             });
         })).subscribeOn(Schedulers.io()).reduceWith(
-                ArrayList::new,
-                (comments, comment) -> {
-                    comments.add(comment);
-                    return comments;
-                }
-        );
+            (Supplier<ArrayList<Comment>>) ArrayList::new,
+            (comments, comment) -> {
+                comments.add(comment);
+                return comments;
+            }
+        ).doOnSuccess(e -> ++currentStep);
     }
 }
