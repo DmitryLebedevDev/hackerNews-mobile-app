@@ -16,6 +16,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleObserver;
+import io.reactivex.rxjava3.core.SingleOnSubscribe;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.internal.operators.single.SingleToObservable;
 import io.reactivex.rxjava3.observers.DisposableObserver;
@@ -141,24 +142,25 @@ public class StoriesApi {
 
         return Observable
         .fromArray(stepIds)
-        .concatMapEager(id -> SingleToObservable.create((ObservableOnSubscribe<Story>) e -> {
-            Call req = httpClient.newCall(
-                ActionType.createRequestForGet(id)
-            );
-            e.setCancellable(req::cancel);
+        .concatMapEager(id -> Single.create((SingleOnSubscribe<Story>) e -> {
+                Call req = httpClient.newCall(
+                    ActionType.createRequestForGet(id)
+                );
+                e.setCancellable(req::cancel);
 
-            req.enqueue(new Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {}
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    e.onNext(
-                        gson.fromJson(response.body().string(), Story.class)
-                    );
-                    e.onComplete();
-                }
-            });
-        }).subscribeOn(Schedulers.io()))
+                req.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {}
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        e.onSuccess(
+                            gson.fromJson(response.body().string(), Story.class)
+                        );
+                    }
+                });
+            })
+            .subscribeOn(Schedulers.io())
+            .toObservable())
         .reduceWith(
             ArrayList::new,
             (storiesList, story) -> {
