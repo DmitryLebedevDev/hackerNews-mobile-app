@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
     Disposable disposable;
     
-    ViewGroup vList;
+    ViewGroup   vList;
     ProgressBar vListLoading;
-    Button vListLoadButton;
+    Button      vListLoadButton;
 
     @Override
     @SuppressLint("ResourceType")
