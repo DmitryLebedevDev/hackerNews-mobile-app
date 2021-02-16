@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleObserver;
@@ -54,23 +55,9 @@ public class CommentsApi {
     private Single<ArrayList<Comment>> getCommentsOfArrayIds(Integer[] ids) {
         return Observable.fromArray(ids).concatMapEager(idComment ->
             Single.create((SingleOnSubscribe<Comment>) e -> {
-                Call req = http.newCall(
-                    ActionType.createRequestForGet(idComment)
+                ActionType.getInstanceOfApiInObservableEmit(
+                    idComment, e, Comment.class, http, gson
                 );
-                e.setCancellable(req::cancel);
-
-                req.enqueue(new Callback() {
-                    @Override
-                    public void onFailure(@NotNull Call call, @NotNull IOException err) {
-                        e.onError(err);
-                    }
-                    @Override
-                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        e.onSuccess(
-                            gson.fromJson(response.body().string(), Comment.class)
-                        );
-                    }
-                });
             })
             .subscribeOn(Schedulers.io())
             .toObservable()

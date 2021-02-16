@@ -143,21 +143,9 @@ public class StoriesApi {
         return Observable
         .fromArray(stepIds)
         .concatMapEager(id -> Single.create((SingleOnSubscribe<Story>) e -> {
-                Call req = httpClient.newCall(
-                    ActionType.createRequestForGet(id)
+                Story.getInstanceOfApiInObservableEmit(
+                    id, e, Story.class, httpClient, gson
                 );
-                e.setCancellable(req::cancel);
-
-                req.enqueue(new Callback() {
-                    @Override
-                    public void onFailure(@NotNull Call call, @NotNull IOException e) {}
-                    @Override
-                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        e.onSuccess(
-                            gson.fromJson(response.body().string(), Story.class)
-                        );
-                    }
-                });
             })
             .subscribeOn(Schedulers.io())
             .toObservable())
