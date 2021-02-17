@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="11dp"
-    android:paddingBottom="8dp"
     android:orientation="vertical"
     tools:context=".StoryActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="11dp"
+        android:paddingBottom="8dp"
         android:orientation="vertical"
     >
         <include
@@ -21,12 +21,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             layout="@layout/new_story_item"
-            />
-        <include layout="@layout/new_comment"/>
+        />
         <LinearLayout
+            android:id="@+id/story_comments_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:gravity="center"
         >
             <ProgressBar

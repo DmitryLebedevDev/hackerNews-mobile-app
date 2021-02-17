@@ -48,7 +48,7 @@ public class StoryItem {
             vStoryComments.setText("0");
         }
 
-        vStoryAgo.setText(" | " + story.getTimeAgo(currentDate) + " | ");
+        vStoryAgo.setText("| " + story.getTimeAgo(currentDate) + " |");
         vStoryBy.setText("by " + story.by);
 
         return storyView;

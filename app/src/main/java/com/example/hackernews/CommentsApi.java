@@ -29,7 +29,7 @@ public class CommentsApi {
     private final OkHttpClient http;
     private final Integer[] parentComments;
 
-    private final Integer stepSize = 20;
+    private final Integer stepSize = 2;
     private Integer currentStep = 0;
 
     public CommentsApi(Integer[] parentComments, Gson gson, OkHttpClient http) {
@@ -61,7 +61,9 @@ public class CommentsApi {
             })
             .subscribeOn(Schedulers.io())
             .toObservable()
-        ).reduceWith(
+        ).subscribeOn(Schedulers.io())
+        .subscribeOn(Schedulers.io())
+        .reduceWith(
             ArrayList::new,
             (comments, comment) -> {
                 comments.add(comment);
