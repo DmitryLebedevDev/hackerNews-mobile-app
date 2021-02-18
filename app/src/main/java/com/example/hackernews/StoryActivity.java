@@ -55,7 +55,7 @@ public class StoryActivity extends AppCompatActivity {
                 for(Comment comment : comments) {
                     Log.v("test", comment.text);
                     View vComment = CommentItem.inflateCommentTemplate(
-                        inf, vCommentList, comment
+                        inf, vCommentList, comment, getBaseContext()
                     );
 
                     vCommentList.addView(vComment, vCommentList.getChildCount()-2);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
@@ -13,23 +14,27 @@
             android:orientation="horizontal"
             >
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3sp"
-                android:fontFamily="@font/mi_regular"
-                android:text="mode_comment"
-                android:textSize="16sp"
-                />
-            <TextView
+            android:id="@+id/comment_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3sp"
+            android:fontFamily="@font/mi_regular"
+            android:text="mode_comment"
+            android:textColor="#595959"
+            android:textSize="16sp"
+            android:translationZ="1px"
+            />
+            <WebView
                 android:id="@+id/comment_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
                 android:text="     Test fgd dfg gf fg f fg fg fg fgfg fg fg fg gf fg fg fgfg fg fg fg fg fg fg gdf gdf gdf dfg dfg dfg gdf dfg df dfg df d dfg dfg dgf gdf fdg df df dfg dfg..."
                 android:textColor="#595959"
                 android:textSize="16sp"
                 android:layout_marginLeft="-16sp"
-                />
+                tools:ignore="WebViewLayout" />
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -117,4 +122,4 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</FrameLayout>
+</RelativeLayout>

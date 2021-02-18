@@ -29,7 +29,7 @@ public class CommentsApi {
     private final OkHttpClient http;
     private final Integer[] parentComments;
 
-    private final Integer stepSize = 2;
+    private final Integer stepSize = 3;
     private Integer currentStep = 0;
 
     public CommentsApi(Integer[] parentComments, Gson gson, OkHttpClient http) {
