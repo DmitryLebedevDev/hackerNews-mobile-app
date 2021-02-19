@@ -28,27 +28,22 @@ public class CommentItem {
         TextView vCommentBy       = vComment.findViewById(R.id.comment_by);
 
         vCommentText.loadData( "<style>" +
-                "body {\n" +
-                "  margin: 0px;\n" +
-                "}" +
-                "body > *:first-child {\n" +
-                "  text-indent: 100px\n" +
-                "}" +
-                "p:first-child {\n" +
-                "  text-indent: 20px\n" +
-                "}" +
-                "p:last-child {\n" +
-                "  margin-bottom: 0px;\n" +
-                "}" +
-                "* {\n" +
-                "  color: rgb(89 89 89);\n" +
-                "  margin-left: 0px;" +
-                "}" +
-                "</style>" +
-                "<p>" +
-                comment.text, "text/html; charset=utf-8", "utf-8");
+        "body {\n" +
+        "  margin: 0px;\n" +
+        "}" +
+        "p:first-child {\n" +
+        "  text-indent: " + context.getResources().getDimensionPixelSize(R.dimen.comment_margin_for_icon) + "px;\n" +
+        "}" +
+        "*:last-child {\n" +
+        "  margin-bottom: 0px;\n" +
+        "}\n" +
+        "* {\n" +
+        "  color: rgb(89 89 89);\n" +
+        "}" +
+        "</style>" +
+        "<p>" +
+        comment.text, "text/html", "UTF-8");
 
-        Log.v("test", "<span style=\"width: " + spToPx(16, context) + "px\"></span>");
         vCommentLenReply.setText(Integer.toString(comment.kids.length));
         vCommentAgo.setText("| " + comment.getTimeAgo() + " |");
         vCommentBy.setText("by " + comment.by);
