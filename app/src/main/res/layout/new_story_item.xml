@@ -1,5 +1,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -9,33 +11,34 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
     >
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="start"
             >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2.09dp"
+                android:layout_marginTop="2dp"
                 android:fontFamily="@font/mi_regular"
-                android:layout_marginLeft="-1sp"
                 android:text="save"
                 android:textColor="#595959"
                 android:textSize="16sp"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
+
             <TextView
                 android:id="@+id/story_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
-                android:layout_marginLeft="-16sp"
                 android:text="     Test fgd dfg gdf gdf gdf dfg dfg dfg gdf dfg df dfg df d fgdgf dgfdf dfgdfg fdgdf gdfg dfgdfgd fgdfdfg gdf dgf dfg gdf gdf dg fd fgd fgd f gdf "
                 android:textColor="#595959"
                 android:textSize="16sp"
-                />
-        </LinearLayout>
+                tools:ignore="MissingConstraints" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

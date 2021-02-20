@@ -42,7 +42,7 @@ public class StoryActivity extends AppCompatActivity {
         );
 
         StoryItem.inflateStoryItem(
-            vStory, story
+            vStory, story, StoryActivity.this
         );
 
         LayoutInflater inf = getLayoutInflater();

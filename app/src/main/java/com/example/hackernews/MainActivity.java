@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
                 for(Story story : stories) {
                     View storyView = StoryItem.inflateStoryItem(
-                        inf, vList, story, openStoryActivity(story)
+                        inf, vList, story, openStoryActivity(story), MainActivity.this
                     );
 
                     ViewGroup.MarginLayoutParams marginParams
@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                         0,
                         getResources().getDimensionPixelSize(R.dimen.story_default_margin)
                     );
+                    Log.v("test", getResources().getDimensionPixelSize(R.dimen.story_default_margin) + "");
 
                     vList.addView(storyView, vList.getChildCount()-2);
                 }

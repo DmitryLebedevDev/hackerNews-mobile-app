@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="story_default_margin">8dp</dimen>
+    <dimen name="action_space_for_icon">16dp</dimen>
     <dimen name="comment_margin_for_icon">6sp</dimen>
 </resources>

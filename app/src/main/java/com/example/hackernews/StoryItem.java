@@ -1,6 +1,7 @@
 package com.example.hackernews;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.LeadingMarginSpan;
@@ -12,20 +13,22 @@ import android.widget.TextView;
 import java.util.Date;
 
 public class StoryItem {
-    static public View inflateStoryItem(LayoutInflater inf, ViewGroup parent, Story story) {
+    static public View inflateStoryItem(
+        LayoutInflater inf, ViewGroup parent, Story story, Context context
+    ) {
         View storyView = inf.inflate(R.layout.new_story_item, parent, false);
-        return inflateStoryItem(storyView, story);
+        return inflateStoryItem(storyView, story, context);
     }
     static public View inflateStoryItem(
-            LayoutInflater inf, ViewGroup parent, Story story, View.OnClickListener handleExit
+            LayoutInflater inf, ViewGroup parent, Story story, View.OnClickListener handleExit, Context context
     ) {
         View storyView = inf.inflate(R.layout.new_story_item, parent, false);
         return inflateStoryItem(
-            inflateStoryItem(storyView, story), handleExit
+            inflateStoryItem(storyView, story, context), handleExit
         );
     }
     @SuppressLint("SetTextI18n")
-    static public View inflateStoryItem(View storyView, Story story) {
+    static public View inflateStoryItem(View storyView, Story story, Context context) {
         TextView vStoryTitle      = storyView.findViewById(R.id.story_title);
         TextView vStoryLikes      = storyView.findViewById(R.id.story_likes);
         TextView vStoryComments   = storyView.findViewById(R.id.story_comments);
@@ -34,7 +37,10 @@ public class StoryItem {
         long currentDate          = new Date().getTime();
 
         SpannableString storyTitle = new SpannableString(story.title);
-        LeadingMarginSpan startStrMargin = new LeadingMarginSpan.Standard(50, 0);
+        LeadingMarginSpan startStrMargin = new LeadingMarginSpan.Standard(
+            context.getResources().getDimensionPixelSize(R.dimen.action_space_for_icon),
+            0
+        );
         storyTitle.setSpan(
                 startStrMargin, 0, storyTitle.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
