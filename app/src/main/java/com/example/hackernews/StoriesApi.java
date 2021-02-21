@@ -47,16 +47,16 @@ public class StoriesApi {
         } else return (currentStep + 1) * sizeStep <= ids.size();
     }
 
-    public Observable<List<Story>> nextStories() {
-        return Observable.create(e -> {
+    public Single<List<Story>> nextStories() {
+        return Single.create(e -> {
             CompositeDisposable disposable = new CompositeDisposable();
 
             disposable.add(
                 getIds()
-                    .subscribeOn(Schedulers.io())
-                    .subscribeWith(new DisposableObserver<List<Integer>>() {
+                    .observeOn(Schedulers.io())
+                    .subscribeWith(new DisposableSingleObserver<List<Integer>>() {
                         @Override
-                        public void onNext(@NonNull List<Integer> idsList) {
+                        public void onSuccess(@NonNull List<Integer> idsList) {
                             disposable.add(
                                 getStories(idsList).subscribeWith(
                                     new DisposableSingleObserver<List<Story>>() {
@@ -64,23 +64,21 @@ public class StoriesApi {
                                         public void onSuccess(@NonNull List<Story> stories) {
                                             ++currentStep;
 
-                                            e.onNext(stories);
-                                            e.onComplete();
+                                            e.onSuccess(stories);
                                         }
 
                                         @Override
                                         public void onError(@NonNull Throwable err) {
                                             e.onError(err);
                                         }
-                                })
+                                    })
                             );
                         }
+
                         @Override
                         public void onError(@NonNull Throwable err) {
                             e.onError(err);
                         }
-                        @Override
-                        public void onComplete() {}
                     })
             );
 
@@ -88,12 +86,10 @@ public class StoriesApi {
         });
     }
 
-    private Observable<List<Integer>> getIds() {
-        return Observable.create(e -> {
-
+    private Single<List<Integer>> getIds() {
+        return Single.create(e -> {
             if(!ids.isEmpty()) {
-                e.onNext(ids);
-                e.onComplete();
+                e.onSuccess(ids);
 
                 return;
             }
@@ -112,17 +108,14 @@ public class StoriesApi {
                 public void onFailure(@NotNull Call call, @NotNull IOException error) {
                     e.onError(error);
                 }
-
                 @Override
                 public void onResponse(
-                        @NotNull Call call,
-                        @NotNull Response response
+                    @NotNull Call call,
+                    @NotNull Response response
                 ) throws IOException {
                     Integer[] idsList = gson.fromJson(response.body().string(),Integer[].class);
                     ids = Arrays.asList(idsList);
-                    e.onNext(ids);
-
-                    e.onComplete();
+                    e.onSuccess(ids);
                 }
             });
         });

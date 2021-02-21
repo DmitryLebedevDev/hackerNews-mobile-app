@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.LeadingMarginSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class StoryItem {
             context.getResources().getDimensionPixelSize(R.dimen.action_space_for_icon),
             0
         );
+        Log.v("test", context.getResources().getDimensionPixelSize(R.dimen.action_space_for_icon) + "story");
         storyTitle.setSpan(
                 startStrMargin, 0, storyTitle.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

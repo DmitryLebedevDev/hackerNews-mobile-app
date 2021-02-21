@@ -32,7 +32,7 @@ public class CommentItem {
         "  margin: 0px;\n" +
         "}" +
         "p:first-child {\n" +
-        "  text-indent: " + context.getResources().getDimensionPixelSize(R.dimen.comment_margin_for_icon) + "px;\n" +
+        "  text-indent: " + 16 + "px;\n" +
         "}" +
         "*:last-child {\n" +
         "  margin-bottom: 0px;\n" +
@@ -44,7 +44,14 @@ public class CommentItem {
         "<p>" +
         comment.text, "text/html", "UTF-8");
 
-        vCommentLenReply.setText(Integer.toString(comment.kids.length));
+        vCommentLenReply.setText(
+            Integer.toString(
+                comment.kids == null ? 0 : comment.kids.length
+            )
+        );
+
+        Log.v("test", "  text-indent: " + context.getResources().getDimensionPixelSize(R.dimen.action_space_for_icon) + "px;\n");
+
         vCommentAgo.setText("| " + comment.getTimeAgo() + " |");
         vCommentBy.setText("by " + comment.by);
 

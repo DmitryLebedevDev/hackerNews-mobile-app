@@ -50,6 +50,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.internal.operators.observable.ObservableCreate;
 import io.reactivex.rxjava3.observers.DefaultObserver;
 import io.reactivex.rxjava3.observers.DisposableObserver;
+import io.reactivex.rxjava3.observers.DisposableSingleObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -93,42 +94,39 @@ public class MainActivity extends AppCompatActivity {
 
         this.disposable
                 = storiesApi.nextStories()
+                  .subscribeOn(Schedulers.io())
                   .observeOn(AndroidSchedulers.mainThread())
-                  .subscribeWith(new DisposableObserver<List<Story>> () {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onNext(@NonNull List<Story> stories) {
-                LayoutInflater inf = getLayoutInflater();
+                  .subscribeWith(new DisposableSingleObserver<List<Story>>() {
+              @Override
+              public void onSuccess(@NonNull List<Story> stories) {
+                  LayoutInflater inf = getLayoutInflater();
 
-                for(Story story : stories) {
-                    View storyView = StoryItem.inflateStoryItem(
-                        inf, vList, story, openStoryActivity(story), MainActivity.this
-                    );
+                  for(Story story : stories) {
+                      View storyView = StoryItem.inflateStoryItem(
+                              inf, vList, story, openStoryActivity(story), MainActivity.this
+                      );
 
-                    ViewGroup.MarginLayoutParams marginParams
-                         = (ViewGroup.MarginLayoutParams) storyView.getLayoutParams();
+                      ViewGroup.MarginLayoutParams marginParams
+                              = (ViewGroup.MarginLayoutParams) storyView.getLayoutParams();
 
-                    marginParams.setMargins(
-                        0,
-                        0,
-                        0,
-                        getResources().getDimensionPixelSize(R.dimen.story_default_margin)
-                    );
-                    Log.v("test", getResources().getDimensionPixelSize(R.dimen.story_default_margin) + "");
+                      marginParams.setMargins(
+                              0,
+                              0,
+                              0,
+                              getResources().getDimensionPixelSize(R.dimen.story_default_margin)
+                      );
 
-                    vList.addView(storyView, vList.getChildCount()-2);
-                }
+                      vList.addView(storyView, vList.getChildCount()-2);
+                  }
 
-                vListLoading.setVisibility(View.GONE);
+                  vListLoading.setVisibility(View.GONE);
 
-                if (storiesApi.hasNext())
+                  if (storiesApi.hasNext())
                     vListLoadButton.setVisibility(View.VISIBLE);
-            }
+              }
 
             @Override
             public void onError(@NonNull Throwable e) {}
-            @Override
-            public void onComplete() {}
         });
     }
 

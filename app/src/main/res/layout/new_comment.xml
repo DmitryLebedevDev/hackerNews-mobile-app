@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -8,22 +9,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
+
             <TextView
-            android:id="@+id/comment_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3sp"
-            android:fontFamily="@font/mi_regular"
-            android:text="mode_comment"
-            android:textColor="#595959"
-            android:textSize="16sp"
-            android:translationZ="1px"
-            />
+                android:id="@+id/comment_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mi_regular"
+                android:text="mode_comment"
+                android:textColor="#595959"
+                android:textSize="16sp"
+                android:translationZ="1px"
+                android:layout_marginTop="1dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <WebView
                 android:id="@+id/comment_text"
                 android:layout_width="match_parent"
@@ -32,10 +36,13 @@
                 android:text="     Test fgd dfg gf fg f fg fg fg fgfg fg fg fg gf fg fg fgfg fg fg fg fg fg fg gdf gdf gdf dfg dfg dfg gdf dfg df dfg df d dfg dfg dgf gdf fdg df df dfg dfg..."
                 android:textColor="#595959"
                 android:textSize="16sp"
-                android:layout_marginLeft="-16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="WebViewLayout" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
