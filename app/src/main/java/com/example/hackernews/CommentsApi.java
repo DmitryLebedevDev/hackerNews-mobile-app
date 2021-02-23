@@ -1,5 +1,7 @@
 package com.example.hackernews;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,22 +31,26 @@ public class CommentsApi {
     private final OkHttpClient http;
     private final Integer[] parentComments;
 
-    private final Integer stepSize = 3;
+    private final Integer stepSize = 10;
     private Integer currentStep = 0;
 
     public CommentsApi(Integer[] parentComments, Gson gson, OkHttpClient http) {
         this.gson = gson;
         this.http = http;
-        this.parentComments = parentComments;
+        this.parentComments = (parentComments == null) ?
+            new Integer[0]
+            :
+            parentComments;
     }
 
     public boolean hasNextParentComments() {
-        return (currentStep + 1) * stepSize <= parentComments.length;
+        Log.v("test", parentComments.length + "");
+        return (currentStep) * stepSize < parentComments.length;
     }
 
     public Single<ArrayList<Comment>> getNextParentComments() {
         int startIndex = currentStep*stepSize;
-        int endIndex = (currentStep+1)*stepSize;
+        int endIndex = Math.min((currentStep+1)*stepSize,parentComments.length);
         return
         getCommentsOfArrayIds(
             Arrays.copyOfRange(parentComments, startIndex, endIndex)

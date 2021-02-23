@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                   vListLoading.setVisibility(View.GONE);
 
                   if (storiesApi.hasNext())
-                    vListLoadButton.setVisibility(View.VISIBLE);
+                     vListLoadButton.setVisibility(View.VISIBLE);
               }
 
             @Override

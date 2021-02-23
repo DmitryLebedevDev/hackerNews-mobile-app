@@ -44,7 +44,7 @@ public class StoriesApi {
     public boolean hasNext() {
         if(ids.isEmpty()) {
             return true;
-        } else return (currentStep + 1) * sizeStep <= ids.size();
+        } else return (currentStep) * sizeStep < ids.size();
     }
 
     public Single<List<Story>> nextStories() {
@@ -130,7 +130,9 @@ public class StoriesApi {
         );
 
         Integer[] stepIds = (Integer[]) Arrays.copyOfRange(
-            ids.toArray(), currentStep*sizeStep,(currentStep+1)*sizeStep
+            ids.toArray(),
+            currentStep*sizeStep,
+            Math.min((currentStep+1)*sizeStep, ids.size())
         );
 
         return Observable
