@@ -22,10 +22,13 @@ public class CommentItem {
         LayoutInflater inf, ViewGroup parent, Comment comment, Context context
     ) {
         View vComment = inf.inflate(R.layout.new_comment, parent, false);
-        WebView vCommentText     = vComment.findViewById(R.id.comment_text);
-        TextView vCommentLenReply = vComment.findViewById(R.id.comment_len_reply);
-        TextView vCommentAgo      = vComment.findViewById(R.id.comment_ago);
-        TextView vCommentBy       = vComment.findViewById(R.id.comment_by);
+        WebView   vCommentText     = vComment.findViewById(R.id.comment_text);
+        TextView  vCommentLenReply = vComment.findViewById(R.id.comment_len_reply);
+        TextView  vCommentAgo      = vComment.findViewById(R.id.comment_ago);
+        TextView  vCommentBy       = vComment.findViewById(R.id.comment_by);
+        ViewGroup vCommentShowChildrenComments = vComment.findViewById(
+            R.id.comment_view_children_comments
+        );
 
         vCommentText.loadData( "<style>" +
         "body {\n" +
@@ -44,11 +47,14 @@ public class CommentItem {
         "<p>" +
         comment.text, "text/html", "UTF-8");
 
-        vCommentLenReply.setText(
-            Integer.toString(
-                comment.kids == null ? 0 : comment.kids.length
-            )
-        );
+        if(comment.kids == null) {
+            vCommentLenReply.setText("0");
+            vCommentShowChildrenComments.setVisibility(View.GONE);
+        } else {
+            vCommentLenReply.setText(
+                Integer.toString(comment.kids.length)
+            );
+        }
 
         Log.v("test", "  text-indent: " + context.getResources().getDimensionPixelSize(R.dimen.action_space_for_icon) + "px;\n");
 

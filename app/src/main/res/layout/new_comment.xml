@@ -89,6 +89,7 @@
                 />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/comment_view_children_comments"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="4dp"
